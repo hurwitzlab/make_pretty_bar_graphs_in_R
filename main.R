@@ -6,50 +6,32 @@ raw_graph_data<-read.csv("source_data_for_R_based_on_new_normalization.csv")
 
 graph_data <- raw_graph_data
 
-graph_data$bacteria <- factor(raw_graph_data$Species,levels=c("Bacteroides fragilis","Butyrivibrio fibrisolvens","Escherichia coli","Fusobacterium nucleatum","Bacteroides Distasonis"),labels=c("B.fragilis","B.fibrisolvens","E.coli","F.nucleatum","B.distasonis"))
+sum_by_species <- rowsum(graph_data[,c("percDNA1","percDNA2","percDNA3","percDNA4")],species,reorder = T)
 
-graph_data$sample <- factor(raw_graph_data$Sample,levels=c("DNA_3","DNA_1","DNA_4","DNA_2"),labels=c("SMAD3(+/+),H.hep neg","SMAD3(+/+),H.hep pos","SMAD3(-/-),H.hep neg","SMAD3(-/-),H.hep pos"))
+first_graph <- sum_by_species[c("Mucispirillum schaedleri","Lactobacillus murinus","Lactobacillus plantarum","Lachnospiraceae bacterium A4","Helicobacter hepaticus","Parabacteroides distasonis"),]
 
-mydata <- data.frame(B.fragilis=graph_data[which(graph_data$bacteria=="B.fragilis"),]$Fraction.of.Bacterial.Counts
-                     ,B.fibrisolvens=graph_data[which(graph_data$bacteria=="B.fibrisolvens"),]$Fraction.of.Bacterial.Counts
-                     ,E.coli=graph_data[which(graph_data$bacteria=="E.coli"),]$Fraction.of.Bacterial.Counts
-                     ,F.nucleatum=graph_data[which(graph_data$bacteria=="F.nucleatum"),]$Fraction.of.Bacterial.Counts
-                     ,B.distasonis=graph_data[which(graph_data$bacteria=="B.distasonis"),]$Fraction.of.Bacterial.Counts,row.names=unique(graph_data$Sample))
-mydata_ord<-mydata[c("DNA_3","DNA_4","DNA_1","DNA_2"),]
+first_graph$bacteria <- factor(row.names(first_graph),levels=c("Mucispirillum schaedleri","Lactobacillus murinus","Lactobacillus plantarum","Lachnospiraceae bacterium A4","Helicobacter hepaticus","Parabacteroides distasonis"),labels = c("M.schaedleri","L.murinus","L.plantarum","L.bacterium-A4","H.hepaticus","P.distasonis"))
+
+row.names(first_graph)<-first_graph$bacteria
+
+first_graph<-first_graph[,c(1,2,3,4)]
+
+first_graph<-t(first_graph)
+
+first_graph_ord<-first_graph[c("percDNA3","percDNA4","percDNA1","percDNA2"),]
 
 colors<-brewer.pal(4,"RdBu")[4:1]
-#colors_alpha50<-paste(colors[1:4],"80",sep='')
 
-barplot(as.matrix(mydata_ord)
+barplot(as.matrix(first_graph_ord)
         ,ylab="Fraction of Total Bacterial Counts"
         ,xlab="Species"
         ,beside=TRUE
-        ,col=colors_alpha50)
+        ,col=colors)
 
-legend("center"
+legend("topright"
        ,c("SMAD3(+/+),H.hep neg"
           ,"SMAD3(-/-),H.hep neg"
           ,"SMAD3(+/+),H.hep pos"
           ,"SMAD3(-/-),H.hep pos")
-       ,cex=1
+       ,cex=.75
        ,fill=colors)
-
-# bfrag<-raw_graph_data[which(raw_graph_data$Species=="Bacteroides fragilis"),]
-# bfrag<-bfrag[,3:4]
-# chisq.test(bfrag)
-#
-# ecol<-raw_graph_data[which(raw_graph_data$Species=="Escherichia coli"),]
-# ecol<-ecol[2:3,3:4]
-# fisher.test(ecol)
-#
-# plot(Fraction.of.Bacterial.Counts*100 ~ Sample, data=raw_graph_data[which(raw_graph_data$Species=="Bacteroides fragilis"),])
-#
-# library(ggplot2)
-# library(scales)
-#
-#
-# qplot(Fraction.of.Bacterial.Counts, sample, data=graph_data, facets=bacteria~sample)
-# small_data<-graph_data[,c("sample","bacteria","Fraction.of.Bacterial.Counts")]
-# c<-ggplot(small_data[which(small_data$bacteria=="B.fragilis"),],aes(x=factor(sample),y=Fraction.of.Bacterial.Counts))
-# c + geom_bar(stat="identity")
-#
