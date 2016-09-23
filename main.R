@@ -35,3 +35,25 @@ legend("topright"
           ,"SMAD3(-/-),H.hep pos")
        ,cex=.75
        ,fill=colors)
+
+sum_by_phylum <- rowsum(graph_data[,c("percDNA1","percDNA2","percDNA3","percDNA4")],graph_data$phylum,reorder = T)
+
+second_graph <- sum_by_phylum[c("Bacteroidetes","Deferribacteres","Firmicutes","Proteobacteria"),]
+
+second_graph<-t(second_graph)
+
+second_graph_ord<-second_graph[c("percDNA3","percDNA4","percDNA1","percDNA2"),]
+
+barplot(as.matrix(second_graph_ord)
+        ,ylab="Fraction of Total Bacterial Counts"
+        ,xlab="Phylum"
+        ,beside=TRUE
+        ,col=colors)
+
+legend("topleft"
+       ,c("SMAD3(+/+),H.hep neg"
+          ,"SMAD3(-/-),H.hep neg"
+          ,"SMAD3(+/+),H.hep pos"
+          ,"SMAD3(-/-),H.hep pos")
+       ,cex=.75
+       ,fill=colors)
