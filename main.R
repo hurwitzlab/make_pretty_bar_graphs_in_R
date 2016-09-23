@@ -5,7 +5,9 @@ library(RColorBrewer)
 raw_graph_data<-read.csv("source_data_for_R_based_on_new_normalization.csv")
 
 graph_data <- raw_graph_data
+
 graph_data$bacteria <- factor(raw_graph_data$Species,levels=c("Bacteroides fragilis","Butyrivibrio fibrisolvens","Escherichia coli","Fusobacterium nucleatum","Bacteroides Distasonis"),labels=c("B.fragilis","B.fibrisolvens","E.coli","F.nucleatum","B.distasonis"))
+
 graph_data$sample <- factor(raw_graph_data$Sample,levels=c("DNA_3","DNA_1","DNA_4","DNA_2"),labels=c("SMAD3(+/+),H.hep neg","SMAD3(+/+),H.hep pos","SMAD3(-/-),H.hep neg","SMAD3(-/-),H.hep pos"))
 
 mydata <- data.frame(B.fragilis=graph_data[which(graph_data$bacteria=="B.fragilis"),]$Fraction.of.Bacterial.Counts
