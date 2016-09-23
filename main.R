@@ -57,3 +57,25 @@ legend("topleft"
           ,"SMAD3(-/-),H.hep pos")
        ,cex=.75
        ,fill=colors)
+
+sum_by_family <- rowsum(graph_data[,c("percDNA1","percDNA2","percDNA3","percDNA4")],graph_data$family,reorder = T)
+
+third_graph <- sum_by_family[c("Lachnospiraceae","Lactobacillaceae","Helicobacteraceae","Bacteroidaceae","Deferribacteraceae"),]
+
+third_graph<-t(third_graph)
+
+third_graph_ord<-third_graph[c("percDNA3","percDNA4","percDNA1","percDNA2"),]
+
+barplot(as.matrix(third_graph_ord)
+        ,ylab="Fraction of Total Bacterial Counts"
+        ,xlab="Family"
+        ,beside=TRUE
+        ,col=colors)
+
+legend("topright"
+       ,c("SMAD3(+/+),H.hep neg"
+          ,"SMAD3(-/-),H.hep neg"
+          ,"SMAD3(+/+),H.hep pos"
+          ,"SMAD3(-/-),H.hep pos")
+       ,cex=.75
+       ,fill=colors)
