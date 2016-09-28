@@ -79,3 +79,14 @@ legend("topright"
           ,"SMAD3(-/-),H.hep pos")
        ,cex=.75
        ,fill=colors)
+
+phylum_changes <- data.frame(phyla=colnames(second_graph),"smad3ko"=0,"inflammation"=0,"cancer"=0)
+only_control_phyla<-second_graph_ord[1,]
+phylum_changes$smad3ko=second_graph_ord[2,]/only_control_phyla
+phylum_changes$inflammation=second_graph_ord[3,]/only_control_phyla
+phylum_changes$cancer=second_graph_ord[4,]/only_control_phyla
+
+#Write a script like
+#for each row in data.frame
+#printf "%s increased %d.2-fold in the SMAD3 knockout treatment and %d.2-fold in the induced inflammation treatment. In the condition with both of these treatments, %s increased %d.2-fold" "phyla, smad3ko_change, inf_change, phyla, cancer_change"
+#heh
