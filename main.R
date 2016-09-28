@@ -6,7 +6,7 @@ raw_graph_data<-read.csv("source_data_for_R_based_on_new_normalization.csv")
 
 graph_data <- raw_graph_data
 
-sum_by_species <- rowsum(graph_data[,c("percDNA1","percDNA2","percDNA3","percDNA4")],species,reorder = T)
+sum_by_species <- rowsum(graph_data[,c("percDNA1","percDNA2","percDNA3","percDNA4")],graph_data$species,reorder = T)
 
 first_graph <- sum_by_species[c("Mucispirillum schaedleri","Lactobacillus murinus","Lactobacillus plantarum","Lachnospiraceae bacterium A4","Helicobacter hepaticus","Parabacteroides distasonis"),]
 
