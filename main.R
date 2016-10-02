@@ -86,7 +86,18 @@ phylum_changes$smad3ko=second_graph_ord[2,]/only_control_phyla
 phylum_changes$inflammation=second_graph_ord[3,]/only_control_phyla
 phylum_changes$cancer=second_graph_ord[4,]/only_control_phyla
 
-#Write a script like
-#for each row in data.frame
-#printf "%s increased %d.2-fold in the SMAD3 knockout treatment and %d.2-fold in the induced inflammation treatment. In the condition with both of these treatments, %s increased %d.2-fold" "phyla, smad3ko_change, inf_change, phyla, cancer_change"
-#heh
+write.csv(phylum_changes,"phylum_changes_perc.csv")
+
+family_changes <- data.frame(family=colnames(third_graph),"smad3ko"=0,"inflammation"=0,"cancer"=0)
+family_changes$smad3ko<-third_graph_ord[2,]/third_graph_ord[1,]
+family_changes$inflammation<-third_graph_ord[3,]/third_graph_ord[1,]
+family_changes$cancer<-third_graph_ord[4,]/third_graph_ord[1,]
+
+write.csv(family_changes,"family_changes_perc.csv")
+
+species_changes <- data.frame(species=colnames(first_graph),"smad3ko"=0,"inflammation"=0,"cancer"=0)
+species_changes$smad3ko<-first_graph_ord[2,]/first_graph_ord[1,]
+species_changes$inflammation<-first_graph_ord[3,]/first_graph_ord[1,]
+species_changes$cancer<-first_graph_ord[4,]/first_graph_ord[1,]
+
+write.csv(species_changes,"species_changes_perc.csv")
